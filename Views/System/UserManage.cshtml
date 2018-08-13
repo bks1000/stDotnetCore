@@ -1,0 +1,191 @@
+﻿@model IEnumerable<webapp.Models.User>
+
+
+@{
+    ViewData["Title"] = "UserManage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //var user =  JsonConvert.SerializeObject(ViewBag.user1);
+}
+
+<h2>UserManage</h2>
+
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Age)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+}
+        </tbody>
+    </table>
+
+    <div id="demo">
+        <h1>Latest Vue.js Commits</h1>
+        <el-button type="primary" @@click="query">查询</el-button>
+        <el-button type="primary" @@click="dialogVisible=true">新增</el-button>
+        <el-button type="primary" @@click="edit">修改</el-button>
+
+        <template v-for="branch in branches">
+            <input type="radio"
+                   :id="branch"
+                   :value="branch"
+                   name="branch"
+                   v-model="currentBranch">
+            <label :for="branch">{{ branch }}</label>
+        </template>
+        <el-table :data="tableData" @@row-click="handleCurrentRow"
+                  stripe
+                  style="width: 100%">
+            <el-table-column prop="Name"
+                             label="姓名"
+                             width="180">
+            </el-table-column>
+            <el-table-column prop="Age"
+                             label="年龄"
+                             width="180">
+            </el-table-column>
+            <el-table-column prop="Address"
+                             label="地址">
+            </el-table-column>
+        </el-table>
+        <el-steps :active="active" finish-status="success">
+            <el-step title="步骤 1"></el-step>
+            <el-step title="步骤 2"></el-step>
+            <el-step title="步骤 3"></el-step>
+        </el-steps>
+
+        <el-button style="margin-top: 12px;" v-on:click="next">下一步</el-button>
+        <el-button style="margin-top: 12px;" @@click="next">下一步</el-button>
+
+        <el-dialog title="新增"
+                   :visible.sync="dialogVisible"
+                   width="30%"
+                   :before-close="handleClose">
+            <el-form label-width="80px" :model="fdata">
+                <el-form-item label="姓名">
+                    <el-input v-model="fdata.Name"></el-input>
+                </el-form-item>
+                <el-form-item label="年龄">
+                    <el-input v-model="fdata.Age"></el-input>
+                </el-form-item>
+                <el-form-item label="电话">
+                    <el-input v-model="fdata.Phone"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @@click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @@click="save">确 定</el-button>
+            </span>
+        </el-dialog>
+
+        <p>vuejs/vue{{ currentBranch }}</p>
+        <ul>
+            <li v-for="record in commits">
+                <a :href="record.html_url" target="_blank" class="commit">{{ record.sha.slice(0, 7) }}</a>
+                - <span class="message">{{ record.commit.message | truncate }}</span><br>
+                by <span class="author"><a :href="record.author.html_url" target="_blank">{{ record.commit.author.name }}</a></span>
+                at <span class="date">{{ record.commit.author.date | formatDate }}</span>
+            </li>
+        </ul>
+    </div>
+<script type="text/javascript">
+    var demo = new Vue({
+
+        el: '#demo',
+
+        data: {
+            branches: ['master', 'dev'],
+            currentBranch: 'master',
+            commits: null,
+            active: 0,
+            dialogVisible: false,
+            currentRow: null,
+            tableData:@Html.Raw(ViewData["user"]),
+            fdata: {
+                ID: '',
+                Name: '',
+                Age: 0,
+                Address: '',
+                Phone:''
+            }
+        },
+        methods: {
+            next() {
+                if (this.active++ > 2) this.active = 0;
+            },
+            handleCurrentRow: function (row) {//给选中行赋值
+                this.currentRow = row;
+            },
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => { });
+            },
+            query() {
+                demo.$http.get("/System/GetUser").then(function (res) {
+                    console.log(res);
+                    demo.tableData = res.body;
+                });
+            },
+            save() {
+                demo.$http.post('/System/SaveUser', demo.fdata).then(function (res) {
+                    if (res.ok) {
+                        console.log(res);
+                        demo.dialogVisible = false;
+                        demo.query();
+                    }
+                });
+            },
+            edit() {
+                console.log(this.currentRow);
+                if (this.currentRow == null) {
+                    this.$message.error("没有要修改的数据");
+                    return;
+                }
+                this.fdata = this.currentRow;
+                this.dialogVisible = true;
+                console.log(this.fdata);
+            }
+        }
+    });
+
+</script>

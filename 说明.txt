@@ -1,0 +1,75 @@
+.net core 命令大全
+https://www.cnblogs.com/linezero/p/dotnet.html
+
+
+在项目上右键可以管理Nuget包 和 bower包
+
+本项目使用了EF Core
+
+系统数据库为mysql 8.0
+
+IOC 在startup.cs中配置，通过controller构造函数传入
+
+
+发布命令：dotnet publish -o ./publish
+D:\MyCode\test\aspnetcore\webapp\webapp> dotnet publish -o ./publish
+
+运行命令 dotnet run
+
+发布之后运行dll
+发布后定位到publish目录使用 dotnet xx.dll 执行应用。
+
+
+
+
+
+
+---------------------使用 typescript-----------------------------
+TypeScript 的声明文件的使用与编写
+https://www.cnblogs.com/dhcn/p/7722248.html
+
+ASP.NET Core · TypeScript
+https://www.tslang.cn/docs/handbook/asp-net-core.html
+
+
+bower 版本过低，安装失败时
+首先：npm install -g bower
+然后，设置.bowerrc：https://blog.csdn.net/yichuanqiushui/article/details/80874863
+
+
+gulp.js 教程：需要全局安装gulp : npm install gulp -g
+https://www.cnblogs.com/2050/p/4198792.html
+https://www.tslang.cn/docs/handbook/gulp.html
+
+
+gulp + typescript
+https://www.npmjs.com/package/gulp-typescript
+1. Install gulp CLI
+
+npm install --global gulp-cli
+2. Install gulp in the project dependency
+
+npm install gulp
+3. Install gulp-typescript & TypeScript
+
+npm install gulp-typescript typescript
+
+npm 配置文件
+https://www.cnblogs.com/yaozhenfa/p/asp_net_5_typescript_angular2.html
+
+
+---------------------------------手动执行gulp命令---------------------------------------
+列出所有gulp脚本中的命令
+D:\MyCode\test\aspnetcore\webapp\webapp>gulp --tasks-simple
+
+执行task: compile 
+D:\MyCode\test\aspnetcore\webapp\webapp>gulp compile
+或
+D:\MyCode\test\aspnetcore\webapp\webapp>gulp -b "D:\MyCode\test\aspnetcore\webapp\webapp" --color --gulpfile "D:\MyCode\test\aspnetcore\webapp\webapp\Gulpfile.js" compile
+
+
+
+------------------------------git ------------------------------------------
+如何撤销已放入缓存区文件的修改
+https://blog.csdn.net/u011630575/article/details/51069234
+D:\MyCode\test\aspnetcore\webapp\webapp>git rm --cached -r  D:\MyCode\test\aspnetcore\webapp\webapp

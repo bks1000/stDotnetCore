@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\bower_components\**" />
+    <Compile Remove="wwwroot\dist\**" />
+    <Compile Remove="wwwroot\lib\vue\types\**" />
+    <Content Remove="wwwroot\bower_components\**" />
+    <Content Remove="wwwroot\dist\**" />
+    <Content Remove="wwwroot\lib\vue\types\**" />
+    <EmbeddedResource Remove="wwwroot\bower_components\**" />
+    <EmbeddedResource Remove="wwwroot\dist\**" />
+    <EmbeddedResource Remove="wwwroot\lib\vue\types\**" />
+    <None Remove="wwwroot\bower_components\**" />
+    <None Remove="wwwroot\dist\**" />
+    <None Remove="wwwroot\lib\vue\types\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\index_prod.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="tsscripts\app.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="tsscripts\app.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\scripts\" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties package_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>
